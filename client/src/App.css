@@ -1,42 +1,99 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* src/App.css */
+.App {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 98vw;
+  background-color: #121212;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* src/ChatWindow.css */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #333;
+  border-radius: 12px; /* Reduced border radius */
+  background-color: #1e1e1e;
+  overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden; /* Ensure no horizontal scroll */
+  background-color: #1e1e1e;
+  border-radius: 12px 12px 0 0; /* Reduced border radius for top corners */
 }
 
-.card {
-  padding: 2em;
+.message {
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 8px; /* Reduced border radius for message bubbles */
+  max-width: 70%; /* Reduced max-width for messages */
+  word-wrap: break-word;
+  color: #e0e0e0;
 }
 
-.read-the-docs {
+.message.user {
+  align-self: flex-end;
+  background-color: #3a3a3a;
+}
+
+.message.bot {
+  align-self: flex-start;
+  background-color: #2a2a2a;
+}
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #333;
+  background-color: #1e1e1e;
+  border-radius: 0 0 12px 12px; /* Reduced border radius for bottom corners */
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 12px; /* Reduced border radius for input box */
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.input-area input::placeholder {
   color: #888;
+}
+
+.input-area button {
+  padding: 10px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 12px; /* Reduced border radius for button */
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.input-area button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .chat-window {
+    border-radius: 0;
+  }
+
+  .message {
+    max-width: 100%; /* Adjust for smaller screens */
+  }
 }
