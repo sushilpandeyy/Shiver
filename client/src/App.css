@@ -97,3 +97,9 @@
     max-width: 100%; /* Adjust for smaller screens */
   }
 }
+.sample-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

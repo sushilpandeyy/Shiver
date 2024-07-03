@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../App.css';
+import logo from '../assets/logo.png'; // Replace with your actual logo path
+import sampleImage from '../assets/logo.png'; // Replace with your actual sample image path
 
 function ChatWindow() {
   const [messages, setMessages] = useState([]);
@@ -9,12 +11,14 @@ function ChatWindow() {
     if (input.trim()) {
       setMessages([...messages, { text: input, sender: 'user' }]);
       setInput('');
-      setTimeout(() => {
-        setMessages(prevMessages => [
-          ...prevMessages,
-          { text: 'This is a response from ChatGPT', sender: 'bot' }
-        ]);
-      }, 1000);
+      if (messages.length === 0) {
+        setTimeout(() => {
+          setMessages(prevMessages => [
+            ...prevMessages,
+            { text: 'This is a response from Shiver', sender: 'bot' }
+          ]);
+        }, 1000);
+      }
     }
   };
 
@@ -26,7 +30,14 @@ function ChatWindow() {
             {msg.text}
           </div>
         ))}
+        {messages.length === 0 && (
+          <div className="sample-content">
+            <img src={logo} alt="Logo" className="sample-logo" />
+            <h1>Shiver</h1>
+          </div>
+        )}
       </div>
+
       <div className="input-area">
         <input
           type="text"
