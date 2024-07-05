@@ -6,8 +6,8 @@
   align-items: center;
   height: 100vh;
   width: 98vw;
-  background-color: #121212;
-  color: #e0e0e0;
+  background-color: #1e1e1e; /* Dark background */
+  color: #e0e0e0; /* Light text color */
   margin: 0;
   padding: 0;
 }
@@ -20,17 +20,20 @@
   height: 100%;
   border: 1px solid #333;
   border-radius: 12px; /* Reduced border radius */
-  background-color: #1e1e1e;
+  background-color: #2a2a2a; /* Darker background */
   overflow: hidden;
 }
 
 .messages {
   flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  overflow-x: hidden; /* Ensure no horizontal scroll */
-  background-color: #1e1e1e;
-  border-radius: 12px 12px 0 0; /* Reduced border radius for top corners */
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #2a2a2a;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .message {
@@ -39,7 +42,7 @@
   border-radius: 8px; /* Reduced border radius for message bubbles */
   max-width: 70%; /* Reduced max-width for messages */
   word-wrap: break-word;
-  color: #e0e0e0;
+  color: #e0e0e0; /* Light text color */
 }
 
 .message.user {
@@ -48,15 +51,15 @@
 }
 
 .message.bot {
-  align-self: flex-start;
-  background-color: #2a2a2a;
+  align-self: flex-start; 
+  background-color: #4a4a4a; 
 }
 
 .input-area {
   display: flex;
   padding: 10px;
   border-top: 1px solid #333;
-  background-color: #1e1e1e;
+  background-color: #2a2a2a; /* Darker background */
   border-radius: 0 0 12px 12px; /* Reduced border radius for bottom corners */
 }
 
@@ -65,8 +68,8 @@
   padding: 10px;
   border: 1px solid #333;
   border-radius: 12px; /* Reduced border radius for input box */
-  background-color: #2a2a2a;
-  color: #e0e0e0;
+  background-color: #3a3a3a; /* Dark grey */
+  color: #e0e0e0; /* Light text color */
 }
 
 .input-area input::placeholder {
@@ -78,14 +81,14 @@
   margin-left: 10px;
   border: none;
   border-radius: 12px; /* Reduced border radius for button */
-  background-color: #007bff;
+  background-color: #007bff; /* Blue */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .input-area button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 @media (max-width: 600px) {
@@ -97,9 +100,21 @@
     max-width: 100%; /* Adjust for smaller screens */
   }
 }
-.sample-content{
+
+.sample-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.sample-content img {
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+}
+
+.sample-content h1 {
+  color: #e0e0e0;
+  font-size: 24px;
+  margin-top: 10px;
 }
