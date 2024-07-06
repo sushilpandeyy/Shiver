@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css';
-import ChatWindow from './components/Chatwindow';
+import RecipeComponent from './components/Recipiecomp';
 import './App.css'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <>
     <div className="App">
-      <ChatWindow />
+    <RecipeComponent/>
     </div>
     </>
   )
