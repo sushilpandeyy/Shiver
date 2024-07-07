@@ -23,7 +23,7 @@ async function getResponse(prompt) {
   }
 }
 
-function Recipiecomp() {
+function Chatt() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
@@ -78,4 +78,4 @@ function Recipiecomp() {
   );
 }
 
-export default Recipiecomp;
+export default Chatt;

@@ -1,3 +1,6 @@
+html{
+  background-color: #1e1e1e; /* Dark background */
+}
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,12 +26,10 @@ a:hover {
 }
 
 body {
-  background-color: #1e1e1e; /* Dark background */
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
 }
 
 h1 {

@@ -5,14 +5,14 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
 async function fetchRecipeData(recipeName) {
-  const re="You are an Indian Cheif Named Rinku, write down a recipie for "+recipeName;
-  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='; // Replace with your API key
+  const re = "You are an Indian Chef Named Rinku, write down a recipe for " + recipeName;
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='; 
   try {
     const response = await axios.post(apiUrl, {
-      "contents": [
+      contents: [
         {
-          "role": "user",
-          "parts": [{ "text": re }]
+          role: "user",
+          parts: [{ text: re }]
         }
       ]
     });
