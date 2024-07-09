@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import './Comp.css'; // Import your CSS file
-import logo from '../assets/logo.png';
+import './Comp.css'; 
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
 async function fetchRecipeData(recipeName) {
-  const re = "You are an Indian Chef Named Rinku, write down a recipe for " + recipeName;
+  const re = "You are a female Indian Chef Named Nitya who is caring, kind and helpfull in nature, write down a recipe for " + recipeName + "With proper steps and things to keep in mind. And all necessary information";
   const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='; 
   try {
     const response = await axios.post(apiUrl, {
@@ -43,15 +42,15 @@ function RecipeComponent() {
   return (
     <div className="recipe-container">
       <div className="recipe-header">
-        <img src={logo} alt="Logo" className="recipe-logo" />
-        <h1>Recipe Finder</h1>
+        <img src="https://em-content.zobj.net/source/emojidex/112/female-cook-type-4_1f469-1f3fd-200d-1f373.png" alt="Logo" className="recipe-logo" />
+        <h1>Nitya's Kitchen</h1>
       </div>
       <form onSubmit={handleSubmit} className="recipe-form">
         <input
           type="text"
           value={recipeName}
           onChange={handleRecipeNameChange}
-          placeholder="Enter recipe name"
+          placeholder="Enter dish name"
           className="recipe-input"
         />
         <button type="submit" className="recipe-button">
