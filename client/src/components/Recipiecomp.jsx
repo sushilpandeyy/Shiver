@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 
 async function fetchRecipeData(recipeName) {
   const re = "You are a female Indian Chef Named Nitya who is caring, kind and helpfull in nature, write down a recipe for " + recipeName + "With proper steps and things to keep in mind. And all necessary information";
-  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='; 
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAwh8Q4S09MlXW27ewxAL2PXCKkvzTTzjM'; 
   try {
     const response = await axios.post(apiUrl, {
       contents: [
