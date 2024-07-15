@@ -1,7 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from pymongo import MongoClient
-
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from pymongo import MongoClient, errors
+from pydantic import BaseModel
+from datetime import datetime, timedelta
+from jose import JWTError, jwt
+from passlib.context import CryptContext
 
 app = FastAPI()
 
@@ -15,8 +19,15 @@ app.add_middleware(
 
 client = MongoClient('mongodb+srv://sushilpandey:yXtZBBc2ZCDqbBT@shiver1.sar29rn.mongodb.net/?retryWrites=true&w=majority&appName=Shiver1')
 
+def check_mongodb_connection(client):
+    try:
+        # Attempt to get the server info to trigger the connection
+        client.server_info()
+        print("Connected to MongoDB")
+    except errors.ConnectionFailure:
+        print("Failed to connect to MongoDB")
+
 @app.get("/")
 def welcome():
-
+    check_mongodb_connection(client)
     return {"message": "Welcome to SERVER...."}
-
