@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitya's Kitchen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .recipe-container {
+      max-width: 500px;
+      width: 100%;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe-header {
+      margin-bottom: 20px;
+    }
+
+    .recipe-logo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .recipe-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .recipe-input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .recipe-button {
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      font-size: 16px;
+    }
+
+    .recipe-button:hover {
+      background-color: #0056b3;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ccc;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .recipe-content {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .recipe-container {
+        padding: 15px;
+      }
+
+      .recipe-logo {
+        width: 50px;
+        height: 50px;
+      }
+
+      .recipe-input,
+      .recipe-button {
+        font-size: 14px;
+      }
+    }
+
+    /* Header styles */
+    .home-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .home-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .home-logo {
+      width: 80px;
+      height: 80px;
+    }
+
+    .home-h1 {
+      font-size: 32px;
+      margin: 0;
+      color: #333;
+    }
+
+  </style>
+</head>
+<body>
+    
+  <div class="recipe-container">
+    <div class="home-container">
+      <div class="home-header">
+        <img src="/../static/assets/logo.png" alt="Shiver's Logo" class="home-logo">
+        <h1 class="home-h1">Shiver</h1>
+      </div>
+    </div>
+    <div class="recipe-header">
+      <img src="https://em-content.zobj.net/source/emojidex/112/female-cook-type-4_1f469-1f3fd-200d-1f373.png" alt="Logo" class="recipe-logo" />
+      <h1>Nitya's Kitchen</h1>
+    </div>
+    <form id="recipe-form" class="recipe-form">
+      <input
+        type="text"
+        id="recipe-input"
+        placeholder="Enter dish name"
+        class="recipe-input"
+      />
+      <button type="submit" class="recipe-button">
+        Search
+      </button>
+    </form>
+    <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+    <div id="recipe-content" class="recipe-content"></div>
+  </div>
+
+  <script>
+    let api=localStorage.getItem("api");
+   async function isDish(recipeName) {
+  const re = "In one word, is '" + recipeName + "' a dish? Reply with only 'yes' or 'no'.";
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='+api; 
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: re }]
+          }
+        ]
+      })
+    });
+    const data = await response.json();
+    const answer = data.candidates[0]?.content?.parts[0]?.text.trim().toLowerCase();
+    return answer === 'yes';
+  } catch (error) {
+    console.error('Error checking if it is a dish:', error);
+    return false; // default to false if there's an error
+  }
+}
+
+async function fetchRecipeData(recipeName) {
+  const isADish = await isDish(recipeName);
+  
+  if (!isADish) {
+    return "Sorry, I can only provide recipes for dishes.";
+  }
+  
+  const re = "You are a female Indian Chef Named Nitya who is caring, kind and helpful in nature, write down a recipe for " + recipeName + " with proper steps and things to keep in mind. Include all necessary information.";
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAwh8Q4S09MlXW27ewxAL2PXCKkvzTTzjM'; 
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: re }]
+          }
+        ]
+      })
+    });
+    const data = await response.json();
+    return data.candidates[0]?.content?.parts[0]?.text || '';
+  } catch (error) {
+    console.error('Error fetching recipe:', error);
+    return '';
+  }
+}
+
+    function convertMarkdownToHTML(markdown) {
+      // Convert headers, bold, italic, links, and line breaks
+      let html = markdown
+        .replace(/### (.*$)/gim, '<h3>$1</h3>')  // ### Header
+        .replace(/## (.*$)/gim, '<h2>$1</h2>')   // ## Header
+        .replace(/# (.*$)/gim, '<h1>$1</h1>')    // # Header
+        .replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>') // **Bold**
+        .replace(/\*(.*?)\*/gim, '<i>$1</i>')     // *Italic*
+        .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>") // [Text](Link)
+        .replace(/\n/gim, '<br />');              // Line breaks
+
+      // Convert unordered lists (lines starting with '- ')
+      html = html.replace(/^\s*-\s+(.*)/gm, '<ul><li>$1</li></ul>');
+      
+      // Convert ordered lists (lines starting with '1. ', '2. ', etc.)
+      html = html.replace(/^\s*\d+\.\s+(.*)/gm, '<ol><li>$1</li></ol>');
+
+      // Handle nested lists and ensure they are properly wrapped
+      html = html.replace(/<\/ul>\s*<ul>/g, '')  // Remove extra </ul><ul> tags
+                .replace(/<\/ol>\s*<ol>/g, '')  // Remove extra </ol><ol> tags
+                .replace(/<\/li><br \/><li>/g, '</li><li>'); // Handle line breaks inside lists
+      
+      return html;
+    }
+
+    document.getElementById('recipe-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const recipeInput = document.getElementById('recipe-input');
+      const recipeContent = document.getElementById('recipe-content');
+      const loadingSpinner = document.getElementById('loading-spinner');
+
+      const recipeName = recipeInput.value.trim();
+      if (recipeName) {
+        loadingSpinner.style.display = 'block';
+        recipeContent.innerHTML = '';
+        const content = await fetchRecipeData(recipeName);
+        loadingSpinner.style.display = 'none';
+        recipeContent.innerHTML = convertMarkdownToHTML(content);
+      }
+    });
+  </script>
+</body>
+</html>

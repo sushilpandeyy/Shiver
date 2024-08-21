@@ -9,8 +9,8 @@ import os
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory=os.path.abspath("/Users/sushilpandey/Documents/Mine/Shiver/server/app/templates"))
-app.mount("/static", StaticFiles(directory=os.path.abspath("/Users/sushilpandey/Documents/Mine/Shiver/server/app/static")), name="static")
+templates = Jinja2Templates(directory=os.path.abspath("/Users/sushilpandey/Documents/Mine/Shiver/app/templates"))
+app.mount("/static", StaticFiles(directory=os.path.abspath("/Users/sushilpandey/Documents/Mine/Shiver/app/static")), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
@@ -29,11 +29,18 @@ async def read_item(request: Request):
     return templates.TemplateResponse(
         request=request, name="Chat.html"
     )
-
-@app.get("/recipie", response_class=HTMLResponse)
+    
+@app.get("/nitya", response_class=HTMLResponse)
 async def read_item(request: Request):
     return templates.TemplateResponse(
-        request=request, name="Recipie.html"
+        "Recipie.html",
+        {"request": request}
+    )
+
+@app.get("/herbert", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="Def.html"
     )
 
 # Ensure all tables are created

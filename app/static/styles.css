@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.home-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home-logo {
+  width: 80px;
+  height: auto;
+}
+
+.home-h1 {
+  margin: 10px 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Card Grid Styles */
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-grid a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.recipe-logo {
+  width: 100%;
+  height: auto;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #666;
+  padding: 0 15px 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-logo {
+    width: 60px;
+  }
+
+  .home-h1 {
+    font-size: 1.5rem;
+  }
+
+  .card-grid {
+    gap: 15px;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  .card h2 {
+    font-size: 1.25rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-logo {
+    width: 50px;
+  }
+
+  .home-h1 {
+    font-size: 1.2rem;
+  }
+
+  .card h2 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.8rem;
+  }
+}
