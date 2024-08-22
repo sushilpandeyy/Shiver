@@ -50,7 +50,7 @@ async def read_item(request: Request):
     )
 
 # Ensure all tables are created
-User_model.metadata.create_all(bind=engine)
+#User_model.metadata.create_all(bind=engine)
 
 # Include your routers here (if any)
 # app.include_router(your_router)
