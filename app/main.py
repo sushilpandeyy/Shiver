@@ -43,12 +43,11 @@ async def read_item(request: Request):
         request=request, name="Herb.html"
     )
 
-@app.get("/letter", response_class=HTMLResponse)
+@app.get("/coldemail", response_class=HTMLResponse)
 async def read_item(request: Request):
     return templates.TemplateResponse(
-        request=request, name="Letter.html"
+        request=request, name="Cold.html"
     )
-
 # Ensure all tables are created
 #User_model.metadata.create_all(bind=engine)
 
