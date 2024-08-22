@@ -40,7 +40,7 @@ async def read_item(request: Request):
 @app.get("/herbert", response_class=HTMLResponse)
 async def read_item(request: Request):
     return templates.TemplateResponse(
-        request=request, name="Def.html"
+        request=request, name="Herb.html"
     )
 
 @app.get("/letter", response_class=HTMLResponse)
