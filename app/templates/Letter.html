@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letter Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .grid-item {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .grid-item:hover {
+      background-color: #e0e0e0;
+    }
+
+    .form-container {
+      display: none;
+      max-width: 500px;
+      width: 100%;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-header {
+      margin-bottom: 20px;
+    }
+
+    .form-input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .form-button {
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      font-size: 16px;
+    }
+
+    .form-button:hover {
+      background-color: #0056b3;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ccc;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .letter-content {
+      margin-top: 20px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <div class="grid-item" data-letter-type="Job Application">Job Application</div>
+    <div class="grid-item" data-letter-type="Resignation">Resignation</div>
+    <div class="grid-item" data-letter-type="Leave Request">Leave Request</div>
+    <div class="grid-item" data-letter-type="Complaint Letter">Complaint Letter</div>
+    <!-- Add more grid items as needed -->
+  </div>
+
+  <div class="form-container" id="form-container">
+    <div class="form-header">
+      <h2 id="form-title">Enter Details</h2>
+    </div>
+    <form id="letter-form">
+      <!-- Dynamic input fields will be injected here -->
+      <input type="text" class="form-input" id="recipient-name" placeholder="Recipient Name" required />
+      <input type="text" class="form-input" id="sender-name" placeholder="Your Name" required />
+      <textarea class="form-input" id="message-content" placeholder="Enter the content of the letter" rows="5" required></textarea>
+      <button type="submit" class="form-button">Generate Letter</button>
+    </form>
+    <div id="loading-spinner" class="loading-spinner"></div>
+    <div id="letter-content" class="letter-content"></div>
+  </div>
+
+  <script>
+    const gridItems = document.querySelectorAll('.grid-item');
+    const formContainer = document.getElementById('form-container');
+    const formTitle = document.getElementById('form-title');
+    const letterForm = document.getElementById('letter-form');
+    const letterContent = document.getElementById('letter-content');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    let selectedLetterType = '';
+
+    gridItems.forEach(item => {
+      item.addEventListener('click', () => {
+        selectedLetterType = item.dataset['letterType'];
+        formTitle.textContent = `Enter Details for ${selectedLetterType}`;
+        formContainer.style.display = 'block';
+      });
+    });
+
+    async function generateLetter(recipientName, senderName, messageContent) {
+      const api = localStorage.getItem("api"); // Your API key
+      const re = `Write a ${selectedLetterType} for ${recipientName} from ${senderName}. The content of the letter should be: ${messageContent}`;
+      const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + api;
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: re }]
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        return data.candidates[0]?.content?.parts[0]?.text || 'No letter generated.';
+      } catch (error) {
+        console.error('Error generating letter:', error);
+        return 'Error generating letter.';
+      }
+    }
+
+    letterForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const recipientName = document.getElementById('recipient-name').value.trim();
+      const senderName = document.getElementById('sender-name').value.trim();
+      const messageContent = document.getElementById('message-content').value.trim();
+
+      if (recipientName && senderName && messageContent) {
+        loadingSpinner.style.display = 'block';
+        letterContent.innerHTML = '';
+
+        const letter = await generateLetter(recipientName, senderName, messageContent);
+        loadingSpinner.style.display = 'none';
+        letterContent.textContent = letter;
+      }
+    });
+  </script>
+</body>
+</html>
