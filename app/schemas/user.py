@@ -12,5 +12,10 @@ class User(BaseModel):
     account_created: Optional[datetime]
     modified_date: Optional[datetime]
 
+class UserLogin(BaseModel):
+    username: str
+    email: EmailStr
+    hashed_password: str
+
     class Config:
         orm_mode = True

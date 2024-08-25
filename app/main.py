@@ -15,5 +15,5 @@ app.include_router(authrouter, prefix="/auth", tags=["auth"])
 
 app.mount("/static", StaticFiles(directory=os.path.abspath("/Users/sushilpandey/Documents/Mine/Shiver/app/static")), name="static")
 
-app.include_router(router)
+app.include_router(router, tags=["Templates"])
 

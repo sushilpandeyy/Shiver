@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.user import User
 from app.schemas.user import User as UserModel
 from typing import Optional, List
+from app.utils.security import verify_password
 
 class CRUDUser:
     def get_user_by_username(self, db: Session, username: str) -> Optional[User]:
@@ -40,6 +41,12 @@ class CRUDUser:
         if user:
             db.delete(user)
             db.commit()
+        return user
+    
+    def authenticate_user(self, db: Session, email: str, password: str) -> Optional[User]:
+        user = self.get_user_by_email(db, email=email)
+        if not user or not verify_password(password, user.hashed_password):
+            return None
         return user
 
 crud_user = CRUDUser()
